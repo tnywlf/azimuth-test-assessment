@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.0",
@@ -19,9 +21,15 @@
     "socket.io-client": "^4.8.3"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/jest": "^30.0.0",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "ts-jest": "^29.4.6",
     "typescript": "^5.5.4",
     "vite": "^5.4.2"
   }
