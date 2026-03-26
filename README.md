@@ -12,6 +12,7 @@ A full-stack real-time property management application with integrated AI capabi
 - [Project Structure](#project-structure)
 - [Prerequisites](#prerequisites)
 - [Setup Instructions](#setup-instructions)
+- [Docker Setup](#docker-setup)
 - [Environment Variables](#environment-variables)
 - [Database Setup](#database-setup)
 - [Running the Application](#running-the-application)
@@ -31,6 +32,7 @@ A full-stack real-time property management application with integrated AI capabi
 | **Auth**     | Supabase Auth (JWT-based), Bearer token middleware              |
 | **Realtime** | Socket.IO (WebSocket) for messaging, typing indicators, and push notifications |
 | **Testing**  | Jest, Supertest (backend), React Testing Library (frontend)     |
+| **DevOps**   | Docker, Docker Compose, Nginx (production frontend)             |
 
 ---
 
@@ -175,6 +177,7 @@ Azimuth Test Assessment/
 │   └── package.json
 ├── supabase/
 │   └── schema.sql                  # Full database schema (tables, indexes, RLS, functions)
+├── docker-compose.yml              # Multi-container Docker orchestration
 └── README.md
 ```
 
@@ -184,6 +187,7 @@ Azimuth Test Assessment/
 
 - **Node.js** ≥ 18.x
 - **npm** ≥ 9.x
+- **Docker** & **Docker Compose** (optional — for containerized deployment)
 - **Supabase** account with a project created ([supabase.com](https://supabase.com))
 - **OpenAI** API key (optional — AI features degrade gracefully without it)
 
@@ -260,6 +264,61 @@ npm run dev
 
 - **Backend** runs at `http://localhost:5000`
 - **Frontend** runs at `http://localhost:3000`
+
+---
+
+## Docker Setup
+
+Run the entire stack in containers with a single command.
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
+
+### 1. Configure Environment
+
+Ensure `backend/.env` exists with your Supabase and OpenAI keys (see [Environment Variables](#environment-variables)).
+
+Create a `.env` file in the **project root** for the frontend build args:
+
+```env
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+```
+
+### 2. Build & Start
+
+```bash
+docker compose up --build
+```
+
+### 3. Access the Application
+
+| Service      | URL                        |
+| ------------ | -------------------------- |
+| **Frontend** | http://localhost           |
+| **Backend**  | http://localhost:5000/api  |
+
+### 4. Stop
+
+```bash
+docker compose down
+```
+
+### Run Individual Containers
+
+```bash
+# Backend only
+docker build -t azimuth-backend ./backend
+docker run -p 5000:5000 --env-file ./backend/.env azimuth-backend
+
+# Frontend only (pass build args for Vite env)
+docker build -t azimuth-frontend ./frontend \
+  --build-arg VITE_API_URL=http://localhost:5000/api \
+  --build-arg VITE_SUPABASE_URL=https://your-project-id.supabase.co \
+  --build-arg VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+docker run -p 80:80 azimuth-frontend
+```
 
 ---
 
