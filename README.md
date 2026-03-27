@@ -2,6 +2,8 @@
 
 A full-stack real-time property management application with integrated AI capabilities for conversation summarization, smart reply suggestions, issue detection, and semantic search. Built with **React**, **TypeScript**, **Node.js/Express**, **Supabase**, and **OpenAI**.
 
+**Live Demo:** https://azimuth-test-assessment.vercel.app/
+
 ---
 
 ## Table of Contents
@@ -32,7 +34,7 @@ A full-stack real-time property management application with integrated AI capabi
 | **Auth**     | Supabase Auth (JWT-based), Bearer token middleware              |
 | **Realtime** | Socket.IO (WebSocket) for messaging, typing indicators, and push notifications |
 | **Testing**  | Jest, Supertest (backend), React Testing Library (frontend)     |
-| **DevOps**   | Docker, Docker Compose, Nginx (production frontend)             |
+| **DevOps**   | Docker, Docker Compose                                          |
 
 ---
 
@@ -314,10 +316,10 @@ docker run -p 5000:5000 --env-file ./backend/.env azimuth-backend
 
 # Frontend only (pass build args for Vite env)
 docker build -t azimuth-frontend ./frontend \
-  --build-arg VITE_API_URL=http://localhost:5000/api \
+  --build-arg VITE_API_URL="" \
   --build-arg VITE_SUPABASE_URL=https://your-project-id.supabase.co \
   --build-arg VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
-docker run -p 80:80 azimuth-frontend
+docker run -p 3000:80 azimuth-frontend
 ```
 
 ---

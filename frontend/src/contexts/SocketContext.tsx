@@ -27,8 +27,10 @@ interface SocketContextType {
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
 
-// Derive WS URL from API URL: strip "/api" suffix to get the base server URL
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+// Derive WS URL from API URL: strip "/api" suffix to get the base server URL.
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  `${window.location.protocol}//${window.location.hostname}:5000/api`;
 const SOCKET_URL = API_URL.replace(/\/api\/?$/, "");
 
 export function SocketProvider({ children }: { children: ReactNode }) {
